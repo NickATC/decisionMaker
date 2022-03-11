@@ -11,36 +11,33 @@ struct MainView: View {
     
     let logic = Logic()
     
-
-
+    @State var message = ""
     @State var showPopup = false
     @State var result = false
     
     var body: some View {
         //
-        
-        
-            
+      
         ZStack {
-            
             VStack (spacing: 30){
                     
                     VStack {
                         Text("Desition Maker")
                             .bold()
                             .font(.largeTitle)
+                            .padding(.top)
                         Image(systemName: "person.crop.circle.badge.questionmark")
                             .font(.largeTitle)
                     }
-                    
-          
+                
                     GroupBox {
                         
                         HStack {
                             //MARK: button 1
                             Button {
-                                
+                                let result = logic.MakeDesition()
                                 showPopup = true
+                                message = result ? Logic.messages.holdingTrue.rawValue : Logic.messages.holdingFalse.rawValue
                                 
                             } label: {
                                 VStack{
@@ -57,7 +54,9 @@ struct MainView: View {
                             
                             //MARK: button 2
                             Button {
-                                //
+                                let result = logic.MakeDesition()
+                                showPopup = true
+                                message = result ? Logic.messages.missedTrue.rawValue : Logic.messages.missedFalse.rawValue
                             } label: {
                                 VStack{
                                     Text("Make Missed Approach?")
@@ -69,15 +68,15 @@ struct MainView: View {
                             .foregroundColor(.white)
                             .background(RoundedRectangle(cornerRadius: 20)
                                             .fill(.blue))
-                            
-                            
                         } //End of HStack1
           
                     
                         HStack {
                             //MARK: button 3
                             Button {
-                                //
+                                let result = logic.MakeDesition()
+                                showPopup = true
+                                message = result ? Logic.messages.alternateTrue.rawValue : Logic.messages.alternateFalse.rawValue
                             } label: {
                                 VStack{
                                     Text("Proceed to alternate?")
@@ -92,7 +91,9 @@ struct MainView: View {
             
                             //MARK: button 4
                             Button {
-                                //
+                                let result = logic.MakeDesition()
+                                showPopup = true
+                                message = result ? Logic.messages.questionTrue.rawValue : Logic.messages.questionFalse.rawValue
                             } label: {
                                 VStack{
                                     Text("Yes or no?")
@@ -101,22 +102,18 @@ struct MainView: View {
                                         Image(systemName: "hand.thumbsdown")
                                     }
                                     .font(.largeTitle)
-                                    
                                 }
                             }
                             .padding()
                             .foregroundColor(.white)
                             .background(RoundedRectangle(cornerRadius: 20)
                                             .fill(.blue))
-                            
-                            
                         } //End of HStack2
-          
-                    
-                    
                 }
+                    .frame(maxWidth: 700, maxHeight: 700)
+                    .padding(10)
+                    
             }
-            
             
             
             //When binding is true, popup will appear
@@ -135,11 +132,10 @@ struct MainView: View {
                             .background(.orange)
                             .foregroundColor(.white)
                         Spacer()
-                        
-                        let result = logic.MakeDesition()
-                        //print(result)
-                        Text("Result is")
-                        
+ 
+                        Text("\(message)")
+                            .multilineTextAlignment(.center)
+                            .lineLimit(3)
                         
                         Button {
                             showPopup = false
@@ -150,7 +146,7 @@ struct MainView: View {
                         .padding()
 
                     }
-                    .frame(width: 300, height: 200)
+                    .frame(width: 300, height: 250)
                     .background(Color.white)
                     .cornerRadius(20)
                     .shadow(radius: 20)
@@ -160,14 +156,7 @@ struct MainView: View {
             
         }
         
-        
-        
-        
-        
-        
-       
-        
-        
+ 
         //
     }
 }
